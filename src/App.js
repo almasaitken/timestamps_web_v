@@ -3,16 +3,21 @@ import './App.css';
 import { getTime } from './getTime';
 import { Timestamp, EditableTimestamp} from './components/timestamp';
 import { v4 as uuidv4 } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-solid-svg-icons'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 function App() {
 
   const [link, setLink] = useState('');
   const [message, setMessage] = useState('');
-  const [timestamps, setTimestamps] = useState([]);
+  const [timestamps, setTimestamps] = useState([{key: uuidv4(), time: {
+    hours: '00', 
+    minutes: '00', seconds: '00'
+  }, description: 'Start'}]);
   const [found, setFound] = useState(false);
-  const [description, setDescription] = useState('');
-  const [editedDescription, setEditedDescription] = useState('');
-  const [editedTimestampKey, setEditedTimestampKey] = useState(null);
+  const [description, setDescription] = useState('default');
+  const [editedTimestampKey, setEditedTimestampKey] = useState('');
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
@@ -35,22 +40,20 @@ function App() {
     setDescription(event.target.value);
   };
 
-  const handleEditDescription = (event) => {
-    setEditedDescription(event.target.value);
-  };
-
-  const handleAddTimestamp = async (timestamp) => {
+  const handleAddTimestamp = async () => {
+    let result;
     try {
-      let result = await getTime(link.split("v=")[1]);
+      result = await getTime(link.split("v=")[1]);
       setMessage(result);
     } catch (error) {
       alert(error);
     };
-    setTimestamps([...timestamps, {key: uuidv4(), time: {
-      hours: message.time.hours, 
-      minutes: message.time.minutes, seconds: message.time.seconds
-    }, description: description}]);
-    setEditedTimestampKey(timestamp.key);
+    let key_to_add = uuidv4();
+    setTimestamps([...timestamps, {key: key_to_add, time: {
+      hours: result.time.hours, 
+      minutes: result.time.minutes, seconds: result.time.seconds
+    }}]);
+    setEditedTimestampKey(key_to_add);
     setDescription('');
   };
 
@@ -59,23 +62,33 @@ function App() {
     setTimestamps([...timestamps.slice(0, deletedIndex), ...timestamps.slice(deletedIndex+1)]);
   };
 
-  const handleEditTimestamp = (timestamp) => {
-    setEditedTimestampKey(timestamp.key);
-    setEditedDescription(description);
-  };
-
   const handleSaveTimestamp = (timestamp) => {
     let editedIndex = timestamps.findIndex((tmstmp) => tmstmp.key === timestamp.key);
-    setTimestamps([...timestamps.slice(0, editedIndex), {key: timestamp.key, description: editedDescription, time: timestamp.time}, 
+    setTimestamps([...timestamps.slice(0, editedIndex), {key: timestamp.key, description: description, time: timestamp.time}, 
       ...timestamps.slice(editedIndex+1)]);
-    setEditedTimestampKey(null);
-    setEditedDescription(null);
+    setEditedTimestampKey('');
   };
 
-  const handleKeyPress = (event) => {
+  const handleEditTimestamp = (timestamp) => {
+    setEditedTimestampKey(timestamp.key);
+  };
+
+  const handleOnKeyPress = (event, timestamp) => {
     if (event.key === 'Enter') {
-      handleAddTimestamp();
+      handleSaveTimestamp(timestamp);
     }
+  };
+
+  const handleClearTimestamps = () => {
+    setTimestamps([]);
+  };
+
+  const dataToString = () => {
+    let str = '';
+    timestamps.forEach((timestamp) => {
+      str += timestamp.time.hours + ':' + timestamp.time.minutes + ':' + timestamp.time.seconds + ' - ' + timestamp.description + '\n';
+    });
+    return str;
   }
 
   return (
@@ -87,7 +100,8 @@ function App() {
         <div className='body'>
           <div className='left-side'>
             <div className='left-wrapper'> 
-            { !found ?           <div className='usalass'> 
+            { !found ? 
+          <div className='usalass'> 
           <div className='content'> 
             <h2> paste the youtube live video link you want to connect to </h2>
           </div>
@@ -103,21 +117,32 @@ function App() {
         </div>
         <div className='right-side'> 
         <div className='right-wrapper'>
-          { found ? <div>
-            <input onChange={handleChangeDescription} value={description} onKeyPress={handleKeyPress}/>
-            <button onClick={() => handleAddTimestamp(message)}> add timestamp </button>
-          </div> : <></> }
           <div className='timestamps'>
             {timestamps.map((timestamp) => {
               return (editedTimestampKey === timestamp.key ? 
-                (<EditableTimestamp editedDescription={editedDescription}  handleEditDescription={handleEditDescription} 
+                (<EditableTimestamp 
                 handleSaveTimestamp={() => {handleSaveTimestamp(timestamp)}} key={timestamp.key} time={timestamp.time} 
-                description={timestamp.description} handleDeleteTimestamp={() => {handleDeleteTimestamp(timestamp)}} 
-                handleEditTimestamp={() => {handleEditTimestamp(timestamp)}}/>) 
+                description={timestamp.description} handleChangeDescription={handleChangeDescription} handleDeleteTimestamp={() => {handleDeleteTimestamp(timestamp)}} 
+                handleOnKeyPress={(event) => {handleOnKeyPress(event, timestamp)}}
+                />) 
                 : 
                 (<Timestamp key={timestamp.key} time={timestamp.time} description={timestamp.description} handleDeleteTimestamp={() => {handleDeleteTimestamp(timestamp)}} 
-                  handleEditTimestamp={() => {handleEditTimestamp(timestamp)}}/> ))
+                  handleEditTimestamp={() => handleEditTimestamp(timestamp)} /> ))
             })}
+          </div>
+          { found ? <div>
+            <button id='add' onClick={handleAddTimestamp}> 
+              <FontAwesomeIcon icon={faClock} className='fa-3x'/>
+            </button>
+          </div> : <></> }
+          <div> 
+           { timestamps.length === 0 ? <></> : 
+            <div>
+              <button onClick={handleClearTimestamps}> Clear </button> 
+              <CopyToClipboard text={dataToString()}>
+              <button>Copy to clipboard</button>
+              </CopyToClipboard>
+            </div> }
           </div>
           </div>
           </div>

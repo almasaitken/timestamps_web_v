@@ -13,13 +13,7 @@ import axios from 'axios';
   
     seconds = seconds % 60;
     minutes = minutes % 60;
-  
-    // 👇️ If you don't want to roll hours over, e.g. 24 to 00
-    // 👇️ comment (or remove) the line below
-    // commenting next line gets you `24:00:00` instead of `00:00:00`
-    // or `36:15:31` instead of `12:15:31`, etc.
-    hours = hours % 24;
-  
+    
     return { hours: padTo2Digits(hours), minutes: padTo2Digits(minutes),seconds: padTo2Digits(seconds)};
   }
       
@@ -31,5 +25,5 @@ import axios from 'axios';
       let title = response.data.items[0].snippet.title;
       let channel = response.data.items[0].snippet.channelTitle;
       return {title: title, time: convertMsToTime(smth-startTime), channel: channel};
-    })
+    }).catch(() => console.log('porozhnyak bolyp kaldy'))
   );
