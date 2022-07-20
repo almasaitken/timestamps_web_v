@@ -3,15 +3,19 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: whitesmoke;
-}
-
-* {
-  box-sizing: border-box;
+  background-color: transparent;
+  color: black;
 }
 
 .input-field {
   margin: 20px;
+}
+
+.usalass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .message {
@@ -19,11 +23,10 @@
 }
 
 header {
-  background-color: #000000;
+  background-color:mediumpurple;
   width: 100vw;
+  height: 15vh;
   color: whitesmoke;
-  border: 1px solid rgb(56, 165, 50);
-  padding: 10px;
 }
 
 .content {
@@ -32,57 +35,47 @@ header {
 }
 
 .body {
-  background-color: rgb(0, 0, 0);
   display: flex;
   height: 100vh;
   justify-content: center;
-  align-items: flex-start;
   width: 100vw;
-  border: 5px solid black;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 .button-click {
-  background-color: antiquewhite;
-  border-color: #61dafb;
-  color:darkolivegreen;
+  background-color: black;
+  color: white;
+  border: 1px white solid;
 }
 
 .timestamps {
-  margin-top: 15px;
-  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 85%;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  padding: 5px 10px 5px 10px;
 }
 
 .right-side {
   display: flex;
+  flex-direction: column;
   flex: 3;
-  align-items: flex-start;
+  align-items: center;
   height: auto;
   justify-content: center;
   padding: 10px;
-  border-radius: 10px;
 }
 
-.central-container {
-  margin-top: 100px;
-  display: flex;
-  height: auto;
-  width: 70%;
-  border: 1px solid rgb(56, 165, 50);
-  border-radius: 10px;
-}
 
 .left-side {
   display: flex;
-  flex: 1;
+  flex: 2;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  height: auto 100%;
-  background-color: aliceblue;
-  border-radius: 10px;
+  height: 100%;
   color: black;
+  border-right: 3px solid rgb(20, 31, 66);
 }
 
 #add {
@@ -99,18 +92,31 @@ button {
 }
 
 .tooltip {
-  color: white;
+  color: black;
   display: inline-block;
 }
 
 .tooltip-text {
   display: inline-block;
   visibility: hidden;
-  color: white;
-  overflow: hidden;
+  color: black;
 }
 
 .tooltip:hover .tooltip-text{
   visibility: visible;
 } 
 
+.main-edit {
+  display: flex;
+  box-shadow: 4px 4px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  height: 75vh;
+  width: 80vw;
+  margin-top: 75px;
+  background-color:lavender;
+  border: 3px solid rgb(20, 31, 66);
+}
+
+.copy-delete {
+  display: flex;
+}

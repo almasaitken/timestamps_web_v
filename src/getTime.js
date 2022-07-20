@@ -13,7 +13,7 @@ import axios from 'axios';
   
     seconds = seconds % 60;
     minutes = minutes % 60;
-    
+    hours = hours % 24;
     return { hours: padTo2Digits(hours), minutes: padTo2Digits(minutes),seconds: padTo2Digits(seconds)};
   }
       

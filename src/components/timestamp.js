@@ -11,10 +11,10 @@ export const Timestamp = ({time, description, handleDeleteTimestamp, handleEditT
             <div> { time.hours } : { time.minutes } : { time.seconds } - {description}</div>
             <div className='btns'>
             <button onClick={handleEditTimestamp}>  
-                <FontAwesomeIcon icon={faPenToSquare} className='fa-2x' color='white' />
+                <FontAwesomeIcon icon={faPenToSquare} className='fa-2x' color='orange' />
             </button>
             <button onClick={handleDeleteTimestamp}> 
-                <FontAwesomeIcon icon={faTrash} className='fa-2x' color='white' />
+                <FontAwesomeIcon icon={faTrash} className='fa-2x' color='orange' />
             </button>
             </div>
         </div>
@@ -30,10 +30,10 @@ export const EditableTimestamp = ({time, handleDeleteTimestamp, handleChangeDesc
             </div>
             <div className='btns'>
             <button onClick={handleSaveTimestamp}> 
-                <FontAwesomeIcon icon={faCircleCheck} className='fa-2x' color='white' />
+                <FontAwesomeIcon icon={faCircleCheck} className='fa-2x' color='orange' />
             </button> 
             <button onClick={handleDeleteTimestamp}> 
-                <FontAwesomeIcon icon={faTrash} className='fa-2x' color='white' />
+                <FontAwesomeIcon icon={faTrash} className='fa-2x' color='orange' />
             </button>
             </div>
         </div>
