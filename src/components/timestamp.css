@@ -1,6 +1,7 @@
 .ts-root {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 5px 0px;
 }
 
@@ -9,5 +10,5 @@
 }
 
 .desc-input {
-    width: 55%;
+    width: 75%;
 }

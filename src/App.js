@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { getTime } from './getTime';
 import { Timestamp, EditableTimestamp} from './components/timestamp';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-solid-svg-icons'
+import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { faClipboard } from '@fortawesome/free-solid-svg-icons';
+import { faBroom } from '@fortawesome/free-solid-svg-icons';
+
 
 function App() {
 
@@ -18,6 +21,7 @@ function App() {
   const [found, setFound] = useState(false);
   const [description, setDescription] = useState('default');
   const [editedTimestampKey, setEditedTimestampKey] = useState('');
+  const [tooltip, setTooltip] = useState('Click to copy');
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
@@ -91,6 +95,10 @@ function App() {
     return str;
   }
 
+  useEffect(() => {
+    setTooltip('Click to copy');
+  }, [timestamps]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -98,6 +106,7 @@ function App() {
         <div> https://www.youtube.com/watch?v=2Yg-cH2hpiM</div>
       </header>
         <div className='body'>
+          <div className='central-container'>
           <div className='left-side'>
             <div className='left-wrapper'> 
             { !found ? 
@@ -132,17 +141,25 @@ function App() {
           </div>
           { found ? <div>
             <button id='add' onClick={handleAddTimestamp}> 
-              <FontAwesomeIcon icon={faClock} className='fa-3x'/>
+              <FontAwesomeIcon icon={faClock} className='fa-2x' color='white' />
             </button>
           </div> : <></> }
           <div> 
            { timestamps.length === 0 ? <></> : 
             <div>
-              <button onClick={handleClearTimestamps}> Clear </button> 
+              <div className='tooltip'>
               <CopyToClipboard text={dataToString()}>
-              <button>Copy to clipboard</button>
+              <button onClick={() => setTooltip('Copied')}>            
+                <FontAwesomeIcon icon={faClipboard} className='fa-2x' color='white'/> 
+              </button>
               </CopyToClipboard>
+              <div className='tooltip-text'> {tooltip} </div>
+              </div> 
+              <button onClick={handleClearTimestamps}> 
+              <FontAwesomeIcon icon={faBroom} className='fa-2x' color='white'/>
+              </button> 
             </div> }
+          </div>
           </div>
           </div>
           </div>
