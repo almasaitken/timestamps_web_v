@@ -6,8 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { faClipboard } from "@fortawesome/free-solid-svg-icons";
-import { faBroom } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlineClear } from "react-icons/ai";
+import { CgCopy } from "react-icons/cg";
+import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [link, setLink] = useState("");
@@ -26,7 +27,7 @@ function App() {
   const [found, setFound] = useState(false);
   const [description, setDescription] = useState("default");
   const [editedTimestampKey, setEditedTimestampKey] = useState("");
-  const [tooltip, setTooltip] = useState("Click to copy");
+  const [tooltipCopy, setTooltipCopy] = useState("Click to copy");
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
@@ -36,7 +37,7 @@ function App() {
     try {
       let result = await getTime(link.split("v=")[1]);
       alert(
-        "you connected to " +
+        "You connected to " +
           result.title +
           " on the " +
           result.channel +
@@ -45,7 +46,7 @@ function App() {
       setMessage(result);
       setFound(true);
     } catch (error) {
-      alert("no such live video or it doesn't exist");
+      alert("No such live video or it doesn't exist");
       setMessage("");
       setFound(false);
     }
@@ -103,6 +104,7 @@ function App() {
 
   const handleEditTimestamp = (timestamp) => {
     setEditedTimestampKey(timestamp.key);
+    setDescription(timestamp.description);
   };
 
   const handleOnKeyPress = (event, timestamp) => {
@@ -132,19 +134,38 @@ function App() {
   };
 
   useEffect(() => {
-    setTooltip("Click to copy");
+    setTooltipCopy("Click to copy");
   }, [timestamps]);
+
+  const handleResetLink = () => {
+    setFound(false);
+    setTimestamps([
+      {
+        key: uuidv4(),
+        time: {
+          hours: "00",
+          minutes: "00",
+          seconds: "00",
+        },
+        description: "Start",
+      },
+    ]);
+    setLink("");
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h3> The main page for connecting to the live youtube video </h3>
+        <h1> Timestamps for Youtube Live </h1>
         <div> https://www.youtube.com/watch?v=86YLFOog4GM</div>
       </header>
       <div className="body">
         {!found ? (
           <div className="usalass">
-            <h2> paste the youtube live video link you want to connect to </h2>
+            <h2 id="paste-message">
+              {" "}
+              Paste the youtube live video link you want to connect to{" "}
+            </h2>
             <div className="video-search">
               <input
                 className="input-field"
@@ -152,25 +173,36 @@ function App() {
                 onChange={handleLinkChange}
                 placeholder="video link"
               />
-              <button className="button-click" onClick={handleLinkSubmit}>
-                {" "}
-                Connect to the youtube live video{" "}
-              </button>
             </div>
+            <button className="button-click" onClick={handleLinkSubmit}>
+              Connect to the youtube live video
+            </button>
           </div>
         ) : (
           <div className="main-edit">
             <div className="left-side">
-              <div className="message"> LiveVideo Title: {message.title} </div>
-              <div className="message">
+              <div>
+                <button onClick={handleResetLink} className="another-video-btn">
+                  {" "}
+                  Another video{" "}
+                </button>
+              </div>
+              <div className="subheader">
                 {" "}
-                Hosting channel: {message.channel}{" "}
+                LiveVideo Title:
+                <div className="message">{message.title}</div>
+              </div>
+              <div className="subheader">
+                Hosting channel:
+                <div className="message">{message.channel}</div>
               </div>
               <div className="video-responsive">
                 <iframe
-                  width="300"
-                  height="180"
-                  src={`https://www.youtube.com/embed/${link.split('v=')[1]}?autoplay=1&mute=1`}
+                  width="350"
+                  height="220"
+                  src={`https://www.youtube.com/embed/${
+                    link.split("v=")[1]
+                  }?autoplay=1&mute=1`}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -179,6 +211,56 @@ function App() {
               </div>
             </div>
             <div className="right-side">
+              <div className="btns-row">
+                {found ? (
+                  <div className="add-wrapper">
+                    <button id="add" onClick={handleAddTimestamp}>
+                      <FontAwesomeIcon
+                        icon={faClock}
+                        className="fa-2x"
+                        color="white"
+                      />
+                      <span style={{ marginLeft: "6px" }}>Add timestamp</span>
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div>
+                  {timestamps.length === 0 ? (
+                    <></>
+                  ) : (
+                    <div className="copy-delete">
+                      <div className="tooltip">
+                        <CopyToClipboard text={dataToString()}>
+                          <button
+                            className="copy-delete-btns"
+                            onClick={() => setTooltipCopy("Copied")}
+                          >
+                            <CgCopy style={{ color: "white" }} size={27} />
+                            <div style={{ marginLeft: "7px" }}>
+                              {" "}
+                              {tooltipCopy}{" "}
+                            </div>
+                          </button>
+                        </CopyToClipboard>
+                      </div>
+                      <div className="tooltip">
+                        <button
+                          className="copy-delete-btns"
+                          onClick={handleClearTimestamps}
+                        >
+                          <AiOutlineClear
+                            style={{ color: "white" }}
+                            size={27}
+                          />
+                          <div> Clear </div>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
               <div className="timestamps">
                 {timestamps.map((timestamp) => {
                   return editedTimestampKey === timestamp.key ? (
@@ -198,6 +280,13 @@ function App() {
                       }}
                     />
                   ) : (
+                    <></>
+                  );
+                })}
+                {timestamps.map((timestamp) => {
+                  return editedTimestampKey === timestamp.key ? (
+                    <></>
+                  ) : (
                     <Timestamp
                       key={timestamp.key}
                       time={timestamp.time}
@@ -209,47 +298,6 @@ function App() {
                     />
                   );
                 })}
-              </div>
-              {found ? (
-                <div className="add-wrapper">
-                  <button id="add" onClick={handleAddTimestamp}>
-                    <FontAwesomeIcon
-                      icon={faClock}
-                      className="fa-2x"
-                      color="orange"
-                    />
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
-              <div>
-                {timestamps.length === 0 ? (
-                  <></>
-                ) : (
-                  <div className="copy-delete">
-                    <CopyToClipboard text={dataToString()}>
-                      <button
-                        className="tooltip"
-                        onClick={() => setTooltip("Copied")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faClipboard}
-                          className="fa-2x"
-                          color="orange"
-                        />
-                      </button>
-                    </CopyToClipboard>
-                    <div className="tooltip-text"> {tooltip} </div>
-                    <button onClick={handleClearTimestamps}>
-                      <FontAwesomeIcon
-                        icon={faBroom}
-                        className="fa-2x"
-                        color="orange"
-                      />
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
           </div>
