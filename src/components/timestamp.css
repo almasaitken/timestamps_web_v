@@ -45,6 +45,7 @@
     height: 4vh;
     border: none;
     box-shadow: 5px 5px 5px rgb(0,0,0,0.1);
+    outline-color: rgba(48, 48, 244, 0.6);
 }
 
 .timecode,

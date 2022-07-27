@@ -8,7 +8,8 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { AiOutlineClear } from "react-icons/ai";
 import { CgCopy } from "react-icons/cg";
-import { motion, AnimatePresence } from "framer-motion";
+import { Transition } from "react-transition-group";
+import { Collapse } from "@mui/material";
 
 function App() {
   const [link, setLink] = useState("");
@@ -157,7 +158,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1> Timestamps for Youtube Live </h1>
-        <div> https://www.youtube.com/watch?v=86YLFOog4GM</div>
       </header>
       <div className="body">
         {!found ? (
@@ -177,6 +177,9 @@ function App() {
             <button className="button-click" onClick={handleLinkSubmit}>
               Connect to the youtube live video
             </button>
+            <div className={found ? "modal active" : "modal"}> 
+              <div> there is something going on </div>
+            </div>
           </div>
         ) : (
           <div className="main-edit">

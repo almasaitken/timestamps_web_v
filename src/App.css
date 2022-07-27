@@ -45,7 +45,7 @@
 header {
   background-color:rgba(42, 62, 235, 1);
   width: 100vw;
-  height: 16vh;
+  height: 13vh;
   color: whitesmoke;
   text-align: center;
   font-family: 'Space Mono', monospace;
@@ -162,7 +162,6 @@ button {
   border-radius: 10px;
   height: 78vh;
   width: 85vw;
-  margin-top: 15px;
   background-color:rgb(237, 237, 237);
   border: 3px solid rgb(134, 149, 197);
 }
@@ -213,4 +212,30 @@ button {
   color: rgba(42, 62, 235);
   font-weight: 700;
   margin-left: 10px;
+}
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: all;
+  transition: 0.5s;
+}
+
+
+.modal .active {
+  width: 40vw;
+  height: 30vh;
+  transform: scale(1);
+  opacity: 1;
+}
+
+#paste-message {
+  font-size: 28px;
 }
