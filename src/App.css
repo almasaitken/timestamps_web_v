@@ -214,28 +214,48 @@ button {
   margin-left: 10px;
 }
 
-.modal {
+.modal-background {
   width: 100vw;
   height: 100vh;
   position: fixed;
-  background-color: rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: scale(0);
-  opacity: 0;
-  pointer-events: all;
-  transition: 0.5s;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
 }
 
+.modal-content-wrapper {
+  position: fixed;
+  background-color: rgba(19, 26, 210, 0.9);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 50px;
+  width: 400px;
+  height: 80px;
+  z-index: 10;
+  color:rgb(237, 237, 237);
+  border-radius: 15px;
+}
 
-.modal .active {
-  width: 40vw;
-  height: 30vh;
-  transform: scale(1);
-  opacity: 1;
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 #paste-message {
   font-size: 28px;
 }
+
+#ok-button {
+  color: white;
+  background-color: rgb(253, 253, 253);
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: none;
+  color:rgb(2, 9, 209);
+}
+

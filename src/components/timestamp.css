@@ -14,7 +14,6 @@
     font-family: 'Hind', sans-serif;
     color: black;
     font-weight: 500;
-    width: 80%;
 }
 
 .btns {
@@ -65,6 +64,5 @@
 }
 
 #editable-ts {
-    width: 90%;
     height: 10vh;
 }

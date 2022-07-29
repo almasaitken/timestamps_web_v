@@ -8,12 +8,11 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { AiOutlineClear } from "react-icons/ai";
 import { CgCopy } from "react-icons/cg";
-import { Transition } from "react-transition-group";
-import { Collapse } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [link, setLink] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({title: "something", channel: "default"});
   const [timestamps, setTimestamps] = useState([
     {
       key: uuidv4(),
@@ -29,6 +28,7 @@ function App() {
   const [description, setDescription] = useState("default");
   const [editedTimestampKey, setEditedTimestampKey] = useState("");
   const [tooltipCopy, setTooltipCopy] = useState("Click to copy");
+  const [showPopup, setShowPopup] = useState(false);  
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
@@ -37,18 +37,11 @@ function App() {
   const handleLinkSubmit = async () => {
     try {
       let result = await getTime(link.split("v=")[1]);
-      alert(
-        "You connected to " +
-          result.title +
-          " on the " +
-          result.channel +
-          " channel."
-      );
       setMessage(result);
-      setFound(true);
+      setShowPopup(true);
     } catch (error) {
       alert("No such live video or it doesn't exist");
-      setMessage("");
+      // setMessage("");
       setFound(false);
     }
   };
@@ -135,7 +128,7 @@ function App() {
   };
 
   useEffect(() => {
-    setTooltipCopy("Click to copy");
+    setTooltipCopy("Copy to clipboard");
   }, [timestamps]);
 
   const handleResetLink = () => {
@@ -154,10 +147,69 @@ function App() {
     setLink("");
   };
 
+  const handleClickPopup = () => {
+    setFound(true);
+    setShowPopup(false);
+  };
+  
+  const handleSubmitLinkByEnter = (event) => {
+    if (event.key === "Enter") {
+      handleLinkSubmit();
+    }
+  };
+
   return (
     <div className="App">
+      { showPopup && (
+        <AnimatePresence>
+          <motion.div
+            key="1"
+            className="modal-background"
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+              transition: {
+                duration: 0.5
+              }
+            }}
+            onClick={handleClickPopup}
+          />
+          <motion.div
+            key="2"
+            className="modal-content-wrapper"
+            initial={{
+              scale: 0,
+            }}
+            animate={{
+              scale: 1,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+          >
+            <motion.div
+              key="3"
+              className="modal-content"
+              initial={{
+                y: 60,
+              }}
+              animate={{
+                y: 0,
+                transition: {
+                  duration: 0.3,
+                },
+              }}
+            >
+             <div style={{marginBottom: "30px"}}> You connected to {message.title} from {message.channel} channel</div>
+          <button id="ok-button" onClick={handleClickPopup}> OK </button>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+            )}
       <header className="App-header">
-        <h1> Timestamps for Youtube Live </h1>
+        <h1> Timestamps for YoutubeLive </h1>
       </header>
       <div className="body">
         {!found ? (
@@ -172,14 +224,12 @@ function App() {
                 value={link}
                 onChange={handleLinkChange}
                 placeholder="video link"
+                onKeyPress={handleSubmitLinkByEnter}
               />
             </div>
             <button className="button-click" onClick={handleLinkSubmit}>
               Connect to the youtube live video
             </button>
-            <div className={found ? "modal active" : "modal"}> 
-              <div> there is something going on </div>
-            </div>
           </div>
         ) : (
           <div className="main-edit">
@@ -267,7 +317,14 @@ function App() {
               <div className="timestamps">
                 {timestamps.map((timestamp) => {
                   return editedTimestampKey === timestamp.key ? (
-                    <EditableTimestamp
+                    <motion.div
+                    key={timestamp.key}
+                    layout 
+                    transition={{
+                      duration: 0.5
+                    }}
+                    >
+                      <EditableTimestamp
                       handleSaveTimestamp={() => {
                         handleSaveTimestamp(timestamp);
                       }}
@@ -281,24 +338,33 @@ function App() {
                       handleOnKeyPress={(event) => {
                         handleOnKeyPress(event, timestamp);
                       }}
-                    />
+                    />  
+                    </motion.div>  
                   ) : (
-                    <></>
+                    <div key={uuidv4()}/>
                   );
                 })}
                 {timestamps.map((timestamp) => {
                   return editedTimestampKey === timestamp.key ? (
-                    <></>
+                    <span key={uuidv4()}/>                        
                   ) : (
+                    <motion.div 
+                    key={timestamp.key}
+                    layout 
+                    transition={{
+                      duration: 0.5
+                    }}
+                    > 
                     <Timestamp
-                      key={timestamp.key}
-                      time={timestamp.time}
-                      description={timestamp.description}
-                      handleDeleteTimestamp={() => {
-                        handleDeleteTimestamp(timestamp);
-                      }}
-                      handleEditTimestamp={() => handleEditTimestamp(timestamp)}
-                    />
+                    key={timestamp.key}
+                    time={timestamp.time}
+                    description={timestamp.description}
+                    handleDeleteTimestamp={() => {
+                      handleDeleteTimestamp(timestamp);
+                    }}
+                    handleEditTimestamp={() => handleEditTimestamp(timestamp)}
+                  />
+                  </motion.div>
                   );
                 })}
               </div>
