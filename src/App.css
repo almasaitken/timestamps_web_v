@@ -45,7 +45,7 @@
 header {
   background-color:rgba(42, 62, 235, 1);
   width: 100vw;
-  height: 20vh;
+  height: 15vh;
   color: whitesmoke;
   text-align: center;
   font-family: 'Space Mono', monospace;
@@ -59,7 +59,7 @@ header {
 
 .body {
   display: flex;
-  height: auto;
+  height: 100vh;
   justify-content: center;
   width: 100vw;
   background-color:rgba(42, 62, 235, 1); 
@@ -261,6 +261,14 @@ button {
 
 @media (max-width: 500px) {
 
+  header {
+    height: 20vh;
+  }
+
+  .body {
+    height: auto;
+  }
+
   #app-title {
     white-space: wrap;
   }
@@ -315,6 +323,8 @@ button {
 
   .timestamps {
     height: fit-content;
+    text-align: center;
     width: 70vw;
   }
+  
 }

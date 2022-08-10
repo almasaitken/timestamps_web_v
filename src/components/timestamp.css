@@ -68,8 +68,13 @@
 }
 
 @media (max-width: 500px) {
+
     .ts-root {
         width: 60vw;
+        flex-direction: column;
+    }
+
+    #editable-ts {
         flex-direction: column;
     }
 }

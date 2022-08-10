@@ -46,7 +46,8 @@ export const EditableTimestamp = ({
       <div>
         {" "}
         {time.hours}:{time.minutes}:{time.seconds} {" "}-{" "}
-        <input 
+      </div>
+      <input 
             className="edit-input"
             type="text" 
             defaultValue={description}
@@ -55,7 +56,6 @@ export const EditableTimestamp = ({
             autoFocus={true}
             placeholder="Description"
         />
-      </div>
       <div className="btns">
         <button onClick={handleSaveTimestamp} className="edit-delete">
           <FontAwesomeIcon
