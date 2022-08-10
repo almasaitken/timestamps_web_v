@@ -332,4 +332,18 @@ button {
     background-color: rgba(42, 62, 235, 1);
   }
 
+  .btns-row {
+    flex-direction: column-reverse;
+  }
+
+  .btns-row button {
+    height: fit-content;
+    width: fit-content;
+  }
+
+  #add {
+    height: fit-content;
+    width: fit-content;
+  }
+
 }
