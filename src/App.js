@@ -12,7 +12,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [link, setLink] = useState("");
-  const [message, setMessage] = useState({title: "something", channel: "default"});
+  const [message, setMessage] = useState({
+    title: "something",
+    channel: "default",
+  });
   const [timestamps, setTimestamps] = useState([
     {
       key: uuidv4(),
@@ -28,20 +31,22 @@ function App() {
   const [description, setDescription] = useState("default");
   const [editedTimestampKey, setEditedTimestampKey] = useState("");
   const [tooltipCopy, setTooltipCopy] = useState("Click to copy");
-  const [showPopup, setShowPopup] = useState(false);  
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleLinkChange = (event) => {
     setLink(event.target.value);
   };
 
   const handleLinkSubmit = async () => {
+    setShowPopup(true);
     try {
       let result = await getTime(link.split("v=")[1]);
       setMessage(result);
+      setFound(true);
       setShowPopup(true);
+      console.log("srabotalo");
     } catch (error) {
-      alert("No such live video or it doesn't exist");
-      // setMessage("");
+      console.log(error);
       setFound(false);
     }
   };
@@ -148,10 +153,9 @@ function App() {
   };
 
   const handleClickPopup = () => {
-    setFound(true);
     setShowPopup(false);
   };
-  
+
   const handleSubmitLinkByEnter = (event) => {
     if (event.key === "Enter") {
       handleLinkSubmit();
@@ -160,7 +164,7 @@ function App() {
 
   return (
     <div className="App">
-      { showPopup && (
+      {showPopup && (
         <AnimatePresence>
           <motion.div
             key="1"
@@ -171,8 +175,8 @@ function App() {
             animate={{
               opacity: 1,
               transition: {
-                duration: 0.5
-              }
+                duration: 0.5,
+              },
             }}
             onClick={handleClickPopup}
           />
@@ -202,12 +206,20 @@ function App() {
                 },
               }}
             >
-             <div style={{marginBottom: "30px"}}> You connected to {message.title} from {message.channel} channel</div>
-          <button id="ok-button" onClick={handleClickPopup}> OK </button>
+              <div style={{ marginBottom: "30px" }}>
+                {" "}
+                {found
+                  ? `You connected to ${message.title} from ${message.channel} channel`
+                  : "The video is not live or it doesn't exist!"}{" "}
+              </div>
+              <button id="ok-button" onClick={handleClickPopup}>
+                {" "}
+                OK{" "}
+              </button>
             </motion.div>
           </motion.div>
         </AnimatePresence>
-            )}
+      )}
       <header className="App-header">
         <h1> Timestamps for YoutubeLive </h1>
       </header>
@@ -228,7 +240,7 @@ function App() {
               />
             </div>
             <button className="button-click" onClick={handleLinkSubmit}>
-              Connect to the youtube live video
+              Connect
             </button>
           </div>
         ) : (
@@ -318,53 +330,55 @@ function App() {
                 {timestamps.map((timestamp) => {
                   return editedTimestampKey === timestamp.key ? (
                     <motion.div
-                    key={timestamp.key}
-                    layout 
-                    transition={{
-                      duration: 0.5
-                    }}
+                      key={timestamp.key}
+                      layout
+                      transition={{
+                        duration: 0.5,
+                      }}
                     >
                       <EditableTimestamp
-                      handleSaveTimestamp={() => {
-                        handleSaveTimestamp(timestamp);
-                      }}
-                      key={timestamp.key}
-                      time={timestamp.time}
-                      description={timestamp.description}
-                      handleChangeDescription={handleChangeDescription}
-                      handleDeleteTimestamp={() => {
-                        handleDeleteTimestamp(timestamp);
-                      }}
-                      handleOnKeyPress={(event) => {
-                        handleOnKeyPress(event, timestamp);
-                      }}
-                    />  
-                    </motion.div>  
+                        handleSaveTimestamp={() => {
+                          handleSaveTimestamp(timestamp);
+                        }}
+                        key={timestamp.key}
+                        time={timestamp.time}
+                        description={timestamp.description}
+                        handleChangeDescription={handleChangeDescription}
+                        handleDeleteTimestamp={() => {
+                          handleDeleteTimestamp(timestamp);
+                        }}
+                        handleOnKeyPress={(event) => {
+                          handleOnKeyPress(event, timestamp);
+                        }}
+                      />
+                    </motion.div>
                   ) : (
-                    <div key={uuidv4()}/>
+                    <div key={uuidv4()} />
                   );
                 })}
                 {timestamps.map((timestamp) => {
                   return editedTimestampKey === timestamp.key ? (
-                    <span key={uuidv4()}/>                        
+                    <span key={uuidv4()} />
                   ) : (
-                    <motion.div 
-                    key={timestamp.key}
-                    layout 
-                    transition={{
-                      duration: 0.5
-                    }}
-                    > 
-                    <Timestamp
-                    key={timestamp.key}
-                    time={timestamp.time}
-                    description={timestamp.description}
-                    handleDeleteTimestamp={() => {
-                      handleDeleteTimestamp(timestamp);
-                    }}
-                    handleEditTimestamp={() => handleEditTimestamp(timestamp)}
-                  />
-                  </motion.div>
+                    <motion.div
+                      key={timestamp.key}
+                      layout
+                      transition={{
+                        duration: 0.5,
+                      }}
+                    >
+                      <Timestamp
+                        key={timestamp.key}
+                        time={timestamp.time}
+                        description={timestamp.description}
+                        handleDeleteTimestamp={() => {
+                          handleDeleteTimestamp(timestamp);
+                        }}
+                        handleEditTimestamp={() =>
+                          handleEditTimestamp(timestamp)
+                        }
+                      />
+                    </motion.div>
                   );
                 })}
               </div>

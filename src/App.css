@@ -259,3 +259,21 @@ button {
   color:rgb(2, 9, 209);
 }
 
+@media (max-width: 500px) {
+
+  .usalass {
+    margin-top: 70px;
+  }
+
+  #paste-message {
+    font-size: 18px;
+  }
+  
+  .main-edit {
+    flex-direction: column;
+  }
+
+  .input-field {
+    width: 50vw;
+  }
+}

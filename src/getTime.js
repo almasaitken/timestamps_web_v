@@ -20,9 +20,9 @@ import axios from 'axios';
     await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet&part=liveStreamingDetails&id=${videoId}&key=${api_key}`)
     .then((response) => {
       let smth = new Date();
-      let startTime = new Date(response.data.items[0].liveStreamingDetails.actualStartTime)
+      let startTime = new Date(response.data.items[0].liveStreamingDetails.actualStartTime);
       let title = response.data.items[0].snippet.title;
       let channel = response.data.items[0].snippet.channelTitle;
       return {title: title, time: convertMsToTime(smth-startTime), channel: channel};
-    }).catch(() => console.log('porozhnyak bolyp kaldy'))
+    })
   );
