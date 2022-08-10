@@ -350,4 +350,9 @@ span {
     width: fit-content;
   }
 
+  span {
+    display: block;
+    text-align: center;
+  }
+
 }

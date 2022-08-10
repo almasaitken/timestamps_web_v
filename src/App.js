@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [link, setLink] = useState("https://www.youtube.com/watch?v=86YLFOog4GM");
-  const [sampleLink, setSampleLink] = useState("Sample Link:");
+  const [sampleLink, setSampleLink] = useState("Sample Link for testing: ");
   const [message, setMessage] = useState({
     title: "something",
     channel: "default",
