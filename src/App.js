@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [link, setLink] = useState("https://www.youtube.com/watch?v=86YLFOog4GM");
+  const [sampleLink, setSampleLink] = useState("Sample Link:");
   const [message, setMessage] = useState({
     title: "something",
     channel: "default",
@@ -34,6 +35,7 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleLinkChange = (event) => {
+    setSampleLink('');
     setLink(event.target.value);
   };
 
@@ -232,6 +234,7 @@ function App() {
               Paste the youtube live video link you want to connect to{" "}
             </h2>
             <div className="video-search">
+              <span>{sampleLink}</span>
               <input
                 className="input-field"
                 value={link}

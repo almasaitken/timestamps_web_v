@@ -188,6 +188,10 @@ button {
   margin-top: 30px;
 }
 
+span {
+  display: inline;
+}
+
 .copy-delete-btns {
   background-color: rgba(42, 62, 235, 1);
   border-radius: 10px;
