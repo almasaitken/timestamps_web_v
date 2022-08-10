@@ -11,7 +11,7 @@ import { CgCopy } from "react-icons/cg";
 import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
-  const [link, setLink] = useState("");
+  const [link, setLink] = useState("https://www.youtube.com/watch?v=86YLFOog4GM");
   const [message, setMessage] = useState({
     title: "something",
     channel: "default",

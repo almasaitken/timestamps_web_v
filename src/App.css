@@ -232,7 +232,7 @@ button {
   left: 0;
   bottom: 0;
   margin: auto;
-  padding: 50px;
+  padding: 40px 40px 80px 40px;
   width: 400px;
   height: 80px;
   z-index: 10;
