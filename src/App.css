@@ -328,4 +328,8 @@ button {
     width: 70vw;
   }
 
+  body {
+    background-color: rgba(42, 62, 235, 1);
+  }
+
 }
