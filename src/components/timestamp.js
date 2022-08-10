@@ -16,8 +16,8 @@ export const Timestamp = ({
       <div className="timecode">
         {" "}
         {time.hours}:{time.minutes}:{time.seconds} - 
-        <div className="description"> {" " + (description ? description : '')} </div>
       </div>
+      <div className="description"> {" " + (description ? description : '')} </div>
       <div className="btns">
         <button onClick={handleEditTimestamp} className="edit-delete">
           <FontAwesomeIcon
