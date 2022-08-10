@@ -4,8 +4,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: transparent;
+  background-color: rgba(42, 62, 235, 1);
   color: black;
+  height: 100vh;
 }
 
 .input-field {
@@ -265,8 +266,8 @@ button {
     height: 20vh;
   }
 
-  .body {
-    height: 100vw;
+  .App {
+    height: 100vh;
   }
 
   #app-title {

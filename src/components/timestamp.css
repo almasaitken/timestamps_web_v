@@ -76,5 +76,11 @@
 
     #editable-ts {
         flex-direction: column;
+        height: 25%;
     }
+
+    .btns {
+        margin-top: 5px;
+    }
+
 }
