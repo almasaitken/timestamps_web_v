@@ -266,7 +266,7 @@ button {
   }
 
   .body {
-    height: auto;
+    height: 100vw;
   }
 
   #app-title {
@@ -326,5 +326,5 @@ button {
     text-align: center;
     width: 70vw;
   }
-  
+
 }
