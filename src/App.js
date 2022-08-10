@@ -48,6 +48,7 @@ function App() {
     } catch (error) {
       console.log(error);
       setFound(false);
+      setLink('');
     }
   };
 
@@ -221,7 +222,7 @@ function App() {
         </AnimatePresence>
       )}
       <header className="App-header">
-        <h1> Timestamps for YoutubeLive </h1>
+        <h1 id="app-title"> Timestamps for YoutubeLive </h1>
       </header>
       <div className="body">
         {!found ? (

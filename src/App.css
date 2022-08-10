@@ -45,10 +45,11 @@
 header {
   background-color:rgba(42, 62, 235, 1);
   width: 100vw;
-  height: 13vh;
+  height: 20vh;
   color: whitesmoke;
   text-align: center;
   font-family: 'Space Mono', monospace;
+  overflow: visible;
 }
 
 .content {
@@ -58,7 +59,7 @@ header {
 
 .body {
   display: flex;
-  height: 100vh;
+  height: auto;
   justify-content: center;
   width: 100vw;
   background-color:rgba(42, 62, 235, 1); 
@@ -261,6 +262,10 @@ button {
 
 @media (max-width: 500px) {
 
+  #app-title {
+    white-space: wrap;
+  }
+
   .usalass {
     margin-top: 70px;
   }
@@ -271,9 +276,45 @@ button {
   
   .main-edit {
     flex-direction: column;
+    justify-content: space-between;
+    height: fit-content;
+    overflow: visible;
+  }
+
+  .main-edit > * {
+    padding: 15px;
   }
 
   .input-field {
     width: 50vw;
+  }
+
+  .modal-content-wrapper {
+    width: 60vw;
+    height: fit-content;
+    padding: 40px;
+  }
+
+  iframe {
+    margin-top: 10px;
+    width: 250px;
+    height: 200px;
+  }
+
+  .left-side {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 0;
+    border-bottom: 1px solid blue;
+  }
+
+  .right-side {
+    height: fit-content;
+  }
+
+  .timestamps {
+    height: fit-content;
   }
 }
